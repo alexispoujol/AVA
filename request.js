@@ -5,12 +5,13 @@ const heroku_url = "https://peaceful-beach-89392.herokuapp.com/api/Light";
 const req = new Vue({
     el: '#app',
     data: {
-		light:[],
+		light: {id:17,level:1,status:'OFF'},
+		selectedColor: "Blue"
     },	
     mounted() {
         axios.get(heroku_url)
             .then(response => {this.light = response.data});
-			
+		console.log(this.light);	
 		
 		$(function(){
 
@@ -19,13 +20,17 @@ const req = new Vue({
 
 		  // this will be called when the "Publish" button is pressed 
 		  $('#publish').on('click',function() {
-			  console.log('test');
-			  console.log("Sensor value: " + $('#sensor-value').val() );
-			  var topic = 'Led';
-			  var message = 'Switched light status';
+			  var topic = 'led';
+			  var message = 'switch';
 			  sensor1.publish(topic, message);
 		  });
 
+		  $('#color').on('click',function() {
+			  var topic = 'led'; 
+			  var message = req.selectedColor;
+			  console.log(req.selectedColor);
+			  sensor1.publish(topic, message);
+		  });
 
 		  // create a client that will subscribe to topics
 		  var actuator = mqtt.connect("wss://Led:Led@m14.cloudmqtt.com:32653");
@@ -47,7 +52,7 @@ const req = new Vue({
             let post_url = heroku_url + "/" + id + "/switch/light";
             axios.post(post_url, {LightId:id})
                 .then(response => {this.rooms = response.data});
-            },
+            },	
     }
 
 })
