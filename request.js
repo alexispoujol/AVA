@@ -24,13 +24,13 @@ const req = new Vue({
 			  var message = 'switch';
 			  sensor1.publish(topic, message);
 		  });
-
-		  $('#color').on('click',function() {
+		  //color
+		  /*$('#color').on('click',function() {
 			  var topic = 'led'; 
 			  var message = req.selectedColor;
 			  console.log(req.selectedColor);
 			  sensor1.publish(topic, message);
-		  });
+		  });*/
 
 		  // create a client that will subscribe to topics
 		  var actuator = mqtt.connect("wss://Led:Led@m14.cloudmqtt.com:32653");
